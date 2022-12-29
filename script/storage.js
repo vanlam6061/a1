@@ -39,3 +39,7 @@ let localPetArr = [
 ];
 saveToStorage("localPetArr", JSON.stringify(localPetArr));
 console.log(localPetArr);
+//locaBreedArr storage 
+let localBreedArr = [];
+saveToStorage("localBreedArr", JSON.stringify(localBreedArr));
+console.log(localBreedArr);
