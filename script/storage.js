@@ -37,9 +37,9 @@ let localPetArr = [
     date: "02/03/2022",
   },
 ];
-saveToStorage("localPetArr", JSON.stringify(localPetArr));
+// saveToStorage("localPetArr", JSON.stringify(localPetArr));
 console.log(localPetArr);
-//locaBreedArr storage 
+//locaBreedArr storage
 let localBreedArr = [];
-saveToStorage("localBreedArr", JSON.stringify(localBreedArr));
+// saveToStorage("localBreedArr", JSON.stringify(localBreedArr));
 console.log(localBreedArr);

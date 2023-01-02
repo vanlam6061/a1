@@ -198,6 +198,3 @@ healthyCheckBtn.addEventListener("click", () => {
 //ASM2
 //1. Bổ sung Animation cho Sidebar
 sideBar.classList.toggle("active");
-// sideBar.addEventListener("click", (e) => {
-//   this.classList.toggle("active");
-// });
