@@ -6,7 +6,7 @@ const submitBreedBtn = document.getElementById("submit-btn");
 const nameBreedInput = document.getElementById("input-breed");
 
 const typeBreedInput = document.getElementById("input-type");
-
+let localBreedArr = [];
 // //I. Bắt sự kiện Click vào nút "Submit"
 submitBreedBtn.addEventListener("click", () => {
   const data = {
@@ -21,17 +21,13 @@ submitBreedBtn.addEventListener("click", () => {
   }
   // IV. Thêm thú cưng vào danh sách
   if (validateIsTrue) {
-    // const breedArr = JSON.parse(getFromStorage("localBreedArr"));
     localBreedArr.push(data);
     saveToStorage("localBreedArr", JSON.stringify(localBreedArr));
-    const breedArr = JSON.parse(getFromStorage("localBreedArr"));
-    renderTableData(breedArr);
+    // const breedArr = JSON.parse(getFromStorage("localBreedArr"));
+    renderTableData(localBreedArr);
     clearInput();
   }
-
-  // return localBreedArr;
 });
-// console.log(breedArr);
 
 // clear Input
 const clearInput = () => {
@@ -71,20 +67,5 @@ const deletePet = (breedId) => {
     renderTableData(breedArr);
   }
 };
-
-// // Lưu dữ liệu
-// function saveStaticDataToFile() {
-//   var blob = new Blob(["Welcome to Websparrow.org."], {
-//     type: "text/plain;charset=utf-8",
-//   });
-//   saveAs(blob, "static.txt");
-// }
-
-// // //ASM2
-// // //1. Bổ sung Animation cho Sidebar
-// // sideBar.classList.toggle("active");
-// // // sideBar.addEventListener("click", (e) => {
-// // //   this.classList.toggle("active");
-// // // });console.log(object);
 const breedArr = JSON.parse(getFromStorage("localBreedArr"));
 renderTableData(breedArr);

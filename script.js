@@ -19,6 +19,7 @@ let mm = today.getMonth() + 1;
 let dd = today.getDate();
 // DOM get element by id asm2
 let sideBar = document.getElementById("sidebar");
+sideBar.classList.toggle("active");
 //I. Bắt sự kiện Click vào nút "Submit"
 const petArr = JSON.parse(getFromStorage("localPetArr"));
 submitBtn.addEventListener("click", () => {
@@ -27,7 +28,7 @@ submitBtn.addEventListener("click", () => {
     id: idInput.value,
     name: nameInput.value,
     age: parseInt(ageInput.value),
-    type: typeInput.value,
+    type: typeInput.addEventListener("change", renderBreed()),
     weight: weightInput.value,
     lengthPet: lengthInput.value,
     color: colorInput.value,
@@ -178,23 +179,24 @@ healthyCheckBtn.addEventListener("click", () => {
     healthyCheck = true;
   }
 });
-//IX. Tính toán chỉ số BMI
-// const btnCalculateBMI = document.getElementById("bmi-btn");
-
-// btnCalculateBMI.addEventListener("click", () => calculateBMI(petArr));
-// calculateBMI;
-// function calculateBMI(petArr) {
-//   for (let i = 0; i < petArr.length; i++) {
-//     if (petArr[i].type === "Dog") {
-//       petArr[i].bmi = (petArr[i].weight * 703) / petArr[i].lengthPet ** 2;
-//     } else {
-//       petArr[i].bmi = (petArr[i].weight * 886) / petArr[i].lengthPet ** 2;
-//     }
-//     petArr[i].bmi = petArr[i].bmi.toFixed(2);
-//   }
-//   renderTableData(petArr);
-// }
-
-//ASM2
-//1. Bổ sung Animation cho Sidebar
-sideBar.classList.toggle("active");
+//filter dog/cat from localBreedArr
+const renderBreed = function () {
+  if (typeInput == "dog") {
+    let dogBreed = localBreedArr.filter(
+      (localBreedArr) => localBreedArr.type == "dog"
+    );
+    dogBreed.forEach((dog) => {
+      const option = document.createElement("option");
+      option.innerHTML = `${dog.type}`;
+    });
+  } else {
+    let catBreed = localBreedArr.filter(
+      (localBreedArr) => localBreedArr.type == "cat"
+    );
+    catBreed.forEach((cat) => {
+      const option = document.createElement("option");
+      option.innerHTML = `${cat.type}`;
+    });
+  }
+  breedInput.appendChild(option);
+};
