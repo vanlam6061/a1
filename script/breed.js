@@ -7,15 +7,15 @@ const nameBreedInput = document.getElementById("input-breed");
 
 const typeBreedInput = document.getElementById("input-type");
 let localBreedArr = [];
-// //I. Bắt sự kiện Click vào nút "Submit"
+//I. Bắt sự kiện Click vào nút "Submit"
 submitBreedBtn.addEventListener("click", () => {
   const data = {
     name: nameBreedInput.value,
     type: typeBreedInput.value,
   };
-  //   // III. Validate dữ liệu (2 trường khôngg dc bỏ trống)
+  // III. Validate dữ liệu (2 trường khôngg dc bỏ trống)
   let validateIsTrue = true;
-  if (data.name == "" || data.age == "") {
+  if (data.name == "" || data.type == "" || data.type == "Select Type") {
     alert("Please fill all fields");
     validateIsTrue = false;
   }
@@ -23,9 +23,8 @@ submitBreedBtn.addEventListener("click", () => {
   if (validateIsTrue) {
     localBreedArr.push(data);
     saveToStorage("localBreedArr", JSON.stringify(localBreedArr));
-    // const breedArr = JSON.parse(getFromStorage("localBreedArr"));
-    renderTableData(localBreedArr);
     clearInput();
+    // renderBreed(localBreedArr);
   }
 });
 
@@ -37,7 +36,7 @@ const clearInput = () => {
 
 const tableBreed = document.getElementById("tbody");
 // V. Hiển thị type thú cưng
-function renderTableData(breedArr) {
+function renderBreed(breedArr) {
   tableBreed.innerHTML = ``;
   for (let i = 0; i < breedArr.length; i++) {
     const row = document.createElement("tr");
@@ -61,11 +60,12 @@ function renderTableData(breedArr) {
 const deletePet = (breedId) => {
   if (confirm("Are you sure?")) {
     let i = breedArr.findIndex((id) => {
-      id == petId;
+      id == breedId;
     });
     breedArr.splice(i - 1, 1);
-    renderTableData(breedArr);
+    saveToStorage("localBreedArr", JSON.stringify(localBreedArr));
   }
+  renderBreed(breedArr);
 };
 const breedArr = JSON.parse(getFromStorage("localBreedArr"));
-renderTableData(breedArr);
+renderBreed(breedArr);
