@@ -37,8 +37,4 @@ let localPetArr = [
     date: "02/03/2022",
   },
 ];
-// saveToStorage("localPetArr", JSON.stringify(localPetArr));
 console.log(localPetArr);
-
-// saveToStorage("localBreedArr", JSON.stringify(localBreedArr));
-// console.log(localBreedArr);

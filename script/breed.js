@@ -6,7 +6,10 @@ const submitBreedBtn = document.getElementById("submit-btn");
 const nameBreedInput = document.getElementById("input-breed");
 
 const typeBreedInput = document.getElementById("input-type");
-let localBreedArr = [];
+
+let localBreedArr = getFromStorage("localBreedArr")
+  ? JSON.parse(getFromStorage("localBreedArr"))
+  : [];
 //I. Bắt sự kiện Click vào nút "Submit"
 submitBreedBtn.addEventListener("click", () => {
   const data = {
@@ -24,7 +27,7 @@ submitBreedBtn.addEventListener("click", () => {
     localBreedArr.push(data);
     saveToStorage("localBreedArr", JSON.stringify(localBreedArr));
     clearInput();
-    // renderBreed(localBreedArr);
+    renderBreed(localBreedArr);
   }
 });
 

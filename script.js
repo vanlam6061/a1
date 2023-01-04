@@ -17,18 +17,40 @@ const today = new Date();
 let yyyy = today.getFullYear();
 let mm = today.getMonth() + 1;
 let dd = today.getDate();
-// DOM get element by id asm2
 let sideBar = document.getElementById("sidebar");
 sideBar.classList.toggle("active");
+
+//fillter the breed type before  load to pet table
+const breedFillterArr = JSON.parse(getFromStorage("localBreedArr"));
+console.log(breedFillterArr);
+breedInput.addEventListener("change", () => {
+  if (typeInput.value == "dog") {
+    let dogBreed = breedFillterArr.filter((arr) => arr.type == "dog");
+    console.log(dogBreed);
+    dogBreed.forEach((dog) => {
+      const dogOption = document.createElement("option");
+      dogOption.innerHTML = `${dog.type}`;
+      breedInput.appendChild(dogOption);
+    });
+  } else {
+    let catBreed = breedFillterArr.filter((arr) => arr.type == "cat");
+    console.log(catBreed);
+    catBreed.forEach((cat) => {
+      const catOption = document.createElement("option");
+      catOption.innerHTML = `${cat.type}`;
+      breedInput.appendChild(catOption);
+    });
+  }
+});
+const petArr = [];
 //I. Bắt sự kiện Click vào nút "Submit"
-const petArr = JSON.parse(getFromStorage("localPetArr"));
 submitBtn.addEventListener("click", () => {
   // II. Lấy dữ liệu từ các Form Input
   const data = {
     id: idInput.value,
     name: nameInput.value,
     age: parseInt(ageInput.value),
-    type: typeInput.addEventListener("change", renderBreed()),
+    type: typeInput.value,
     weight: weightInput.value,
     lengthPet: lengthInput.value,
     color: colorInput.value,
@@ -87,14 +109,14 @@ submitBtn.addEventListener("click", () => {
     }
   }
   // IV. Thêm thú cưng vào danh sách
-  if (validate == true) {
-    localArr.push(data);
+  if (validate) {
+    localPetArr.push(data);
+    saveToStorage("localPetArr", JSON.stringify(localPetArr));
+    const petArr = JSON.parse(getFromStorage("localPetArr"));
     renderTableData(petArr);
-    clearInput();
   }
-  return petArr;
+  console.log(localPetArr);
 });
-console.log(petArr);
 const tableBodyEl = document.getElementById("tbody");
 // V. Hiển thị danh sách thú cưng
 function renderTableData(petArr) {
@@ -121,7 +143,6 @@ function renderTableData(petArr) {
 		<td><i class="bi ${
       petArr[i].sterilized == true ? "bi-check-circle-fill" : "bi-x-circle-fill"
     }"></i></td>
-    <td>${petArr[i].bmi ?? "?"} </td>
 		<td>${petArr[i].date}</td>
 		<td><button type="button" class="btn btn-danger" onclick="deletePet('${
       petArr[i].id
@@ -180,23 +201,7 @@ healthyCheckBtn.addEventListener("click", () => {
   }
 });
 //filter dog/cat from localBreedArr
-const renderBreed = function () {
-  if (typeInput == "dog") {
-    let dogBreed = localBreedArr.filter(
-      (localBreedArr) => localBreedArr.type == "dog"
-    );
-    dogBreed.forEach((dog) => {
-      const option = document.createElement("option");
-      option.innerHTML = `${dog.type}`;
-    });
-  } else {
-    let catBreed = localBreedArr.filter(
-      (localBreedArr) => localBreedArr.type == "cat"
-    );
-    catBreed.forEach((cat) => {
-      const option = document.createElement("option");
-      option.innerHTML = `${cat.type}`;
-    });
-  }
-  breedInput.appendChild(option);
-};
+
+// const petArr = JSON.parse(getFromStorage("localPetArr"));
+// renderTableData(petArr);
+// console.log(petArr);
