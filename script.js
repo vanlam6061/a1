@@ -20,24 +20,25 @@ let dd = today.getDate();
 let sideBar = document.getElementById("sidebar");
 sideBar.classList.toggle("active");
 
-//fillter the breed type before  load to pet table
-const breedFillterArr = JSON.parse(getFromStorage("localBreedArr"));
-console.log(breedFillterArr);
-breedInput.addEventListener("change", () => {
+//filter the breed type before  load to pet table
+const breedFilterArr = JSON.parse(getFromStorage("localBreedArr"));
+console.log(breedFilterArr);
+typeInput.addEventListener("change", () => {
+  breedInput.innerHTML = "";
   if (typeInput.value == "dog") {
-    let dogBreed = breedFillterArr.filter((arr) => arr.type == "dog");
+    let dogBreed = breedFilterArr.filter((arr) => arr.type == "Dog");
     console.log(dogBreed);
     dogBreed.forEach((dog) => {
       const dogOption = document.createElement("option");
-      dogOption.innerHTML = `${dog.type}`;
+      dogOption.innerHTML = `${dog.name}`;
       breedInput.appendChild(dogOption);
     });
   } else {
-    let catBreed = breedFillterArr.filter((arr) => arr.type == "cat");
+    let catBreed = breedFilterArr.filter((arr) => arr.type == "Cat");
     console.log(catBreed);
     catBreed.forEach((cat) => {
       const catOption = document.createElement("option");
-      catOption.innerHTML = `${cat.type}`;
+      catOption.innerHTML = `${cat.name}`;
       breedInput.appendChild(catOption);
     });
   }
@@ -89,7 +90,7 @@ submitBtn.addEventListener("click", () => {
     }
     //4 Trường Weight chỉ được nhập giá trị trong khoảng 1 đến 15. Nếu không hợp lệ, hãy đưa ra thông báo "Weight must be between 1 and 15!".
     if (data.weight < 1 || data.weight > 15) {
-      alert("Age must be between 1 and 15!");
+      alert("Weight must be between 1 and 15!");
       validate = false;
     }
     //5 Trường Length chỉ được nhập giá trị trong khoảng 1 đến 100. Nếu không hợp lệ, hãy đưa ra thông báo "Length must be between 1 and 100!".
