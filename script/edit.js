@@ -28,9 +28,9 @@ function renderEditTableData(petArr) {
       petArr[i].sterilized == true ? "bi-check-circle-fill" : "bi-x-circle-fill"
     }"></i></td>
 		<td>${petArr[i].date}</td>
-		<td><button type="button" class="btn btn-danger" onclick="editPet('${
-      petArr[i].id
-    }')">Edit</button>
+		<td><button type="button" class="btn btn-danger" onclick="editPet('${petArr.indexOf(
+      petArr[i]
+    )}')">Edit</button>
 		</td>
   `;
     editTable.appendChild(row);
@@ -56,24 +56,115 @@ let yyyy = today.getFullYear();
 let mm = today.getMonth() + 1;
 let dd = today.getDate();
 
+//Get data from Breed table
+const breedFilterArr = JSON.parse(getFromStorage("localBreedArr"));
+console.log(breedFilterArr);
+typeEditInput.addEventListener("change", showTypePets());
+function showTypePets() {
+  breedEditInput.innerHTML = "";
+  if (typeEditInput.value == "dog") {
+    let dogBreed = breedFilterArr.filter((arr) => arr.type == "Dog");
+    console.log(dogBreed);
+    dogBreed.forEach((dog) => {
+      const dogOption = document.createElement("option");
+      dogOption.innerHTML = `${dog.name}`;
+      breedEditInput.appendChild(dogOption);
+    });
+  } else {
+    let catBreed = breedFilterArr.filter((arr) => arr.type == "Cat");
+    console.log(catBreed);
+    catBreed.forEach((cat) => {
+      const catOption = document.createElement("option");
+      catOption.innerHTML = `${cat.name}`;
+      breedEditInput.appendChild(catOption);
+    });
+  }
+}
 //function edit pet
-
 const formContainer = document.getElementById("container-form");
-const editForm = document.getElementsByTagName("form")[0];
-const editPet = () => {
-	for(let i = 0; i < editPetArr.length; i++) {
-		if()
+const editPet = (indexPetEdit) => {
   formContainer.style.display = "block";
-  editForm.style.margin = "0 auto";
-  idEditInput.value = `${editPetArr.id}`;
-  nameEditInput.value = `${editPetArr.name}`;
-  ageEditInput.value = `${editPetArr.age}`;
-  typeEditInput.value = `${editPetArr.type}`;
-  weightEditInput.value = `${editPetArr.weight}`;
-  lengthEditInput.value = `${editPetArr.length}`;
-  colorEditInput.value = `${editPetArr.color}`;
-  breedEditInput.value = `${editPetArr.breed}`;
-  vaccinatedEditInput.value = `${editPetArr.vaccinated}`;
-  dewormedEditInput.vaccinatedEditInput = `${editPetArr.vaccinated}`;
-  sterilizedEditInput.value = `${editPetArr.sterilized}`;
+
+  for (let i = 0; i < editPetArr.length; i++) {
+    if (i == indexPetEdit) {
+      idEditInput.value = `${editPetArr[i].id}`;
+      nameEditInput.value = `${editPetArr[i].name}`;
+      ageEditInput.value = `${editPetArr[i].age}`;
+      typeEditInput.value = `${editPetArr[i].type}`;
+      weightEditInput.value = `${editPetArr[i].weight}`;
+      lengthEditInput.value = `${editPetArr[i].lengthPet}`;
+      colorEditInput.value = `${editPetArr[i].color}`;
+      breedEditInput.value = `${editPetArr[i].breed}`;
+      vaccinatedEditInput.value = `${editPetArr[i].vaccinated}`;
+      dewormedEditInput.vaccinatedEditInput = `${editPetArr[i].vaccinated}`;
+      sterilizedEditInput.value = `${editPetArr[i].sterilized}`;
+    }
+  }
 };
+
+//Submit event
+submitEditBtn.addEventListener("click", () => {
+  const data = {
+    id: idEditInput.value,
+    name: nameEditInput.value,
+    age: parseInt(ageEditInput.value),
+    type: typeEditInput.value,
+    weight: weightEditInput.value,
+    lengthPet: lengthEditInput.value,
+    color: colorEditInput.value,
+    breed: breedEditInput.value,
+    vaccinated: vaccinatedEditInput.checked,
+    dewormed: dewormedEditInput.checked,
+    sterilized: sterilizedEditInput.checked,
+    date: `${dd}/${mm}/${yyyy}`,
+  };
+  // III. Validate dữ liệu
+  let validate = true;
+  if (
+    data.id == "" ||
+    data.name == "" ||
+    data.age == "" ||
+    data.lengthPet == "" ||
+    data.weight == "" ||
+    data.color == ""
+  ) {
+    alert("Please fill all fields");
+    validate = false;
+  } else {
+    if (data.age < 1 || data.age > 15) {
+      alert("Age must be between 1 and 15!");
+      validate = false;
+    }
+
+    if (data.weight < 1 || data.weight > 15) {
+      alert("Weight must be between 1 and 15!");
+      validate = false;
+    }
+
+    if (data.lengthPet < 1 || data.lengthPet > 100) {
+      alert("Length must be between 1 and 100!");
+      validate = false;
+    }
+
+    if (data.type == "") {
+      alert("Please select Type!");
+      validate = false;
+    }
+
+    if (data.breed == "") {
+      alert("Please select Breed!");
+      validate = false;
+    }
+  }
+  if (validate) {
+    for (let i = 0; i < editPetArr.length; i++) {
+      if (data.id == editPetArr[i].id) {
+        editPetArr[i] = data;
+        saveToStorage("localPetArr", JSON.stringify(editPetArr));
+        formContainer.style.display = "none";
+        renderTableData(editPetArr);
+      }
+    }
+    console.log(localPetArr);
+  }
+});

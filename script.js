@@ -23,7 +23,8 @@ sideBar.classList.toggle("active");
 //filter the breed type before  load to pet table
 const breedFilterArr = JSON.parse(getFromStorage("localBreedArr"));
 console.log(breedFilterArr);
-typeInput.addEventListener("change", () => {
+typeInput.addEventListener("change", showTypePets);
+function showTypePets() {
   breedInput.innerHTML = "";
   if (typeInput.value == "dog") {
     let dogBreed = breedFilterArr.filter((arr) => arr.type == "Dog");
@@ -42,7 +43,7 @@ typeInput.addEventListener("change", () => {
       breedInput.appendChild(catOption);
     });
   }
-});
+}
 const petArr = [];
 //I. Bắt sự kiện Click vào nút "Submit"
 submitBtn.addEventListener("click", () => {
@@ -59,7 +60,6 @@ submitBtn.addEventListener("click", () => {
     vaccinated: vaccinatedInput.checked,
     dewormed: dewormedInput.checked,
     sterilized: sterilizedInput.checked,
-    bmi: null,
     date: `${dd}/${mm}/${yyyy}`,
   };
   // III. Validate dữ liệu
