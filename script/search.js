@@ -3,72 +3,79 @@
 const searchArr = JSON.parse(getFromStorage("localPetArr"));
 console.log(searchArr);
 //DOM get id
-const submitSearchBtn = document.getElementById("submit-btn");
+const findBtn = document.getElementById("find-btn");
 const idSearchInput = document.getElementById("input-id");
 const nameSearchInput = document.getElementById("input-name");
-const ageSearchInput = document.getElementById("input-age");
+const breedSearchInput = document.getElementById("input-breed");
 const typeSearchInput = document.getElementById("input-type");
 const vaccinatedSearchInput = document.getElementById("input-vaccinated");
 const dewormedSearchInput = document.getElementById("input-dewormed");
 const sterilizedSearchInput = document.getElementById("input-sterilized");
 
-idSearchInput.addEventListener("change", showId());
+const breedLoading = JSON.parse(getFromStorage("localBreedArr"));
+const showTypePets = () => {
+  // breedSearchInput.innerHTML = "";
+  breedLoading.forEach((breed) => {
+    const breedOption = document.createElement("option");
+    breedOption.innerHTML = `${breed.name}`;
+    breedSearchInput.appendChild(breedOption);
+  });
+};
+showTypePets();
+findBtn.addEventListener("click", () => {
+  const dataSearch = {
+    id: idSearchInput.value,
+    name: nameSearchInput.value,
+    type: typeSearchInput.value,
+    breed: breedSearchInput.value,
+    vaccinated: vaccinatedSearchInput.checked,
+    dewormed: dewormedSearchInput.checked,
+    sterilized: sterilizedSearchInput.checked,
+  };
+  const resultFind = searchArr.filter((search) => {
+    search.id.includes(dataSearch.id) &&
+      search.name.includes(dataSearch.name) &&
+      search.breed == dataSearch.breed &&
+      search.type == dataSearch.type &&
+      dataSearch.vaccinated == search.vaccinated &&
+      dataSearch.dewormed == search.dewormed &&
+      dataSearch.sterilized == search.sterilized;
+  });
+  renderTableSearch(resultFind);
+  console.log(resultFind);
+});
 
-function showId() {
-  // const firstChildElement = idSearchInput.firstChild;
-  idSearchInput.innerHTML = "";
-  // idSearchInput.appendChild(firstChildElement);
-  const id = idSearchInput.value;
-  console.log(id);
-  for (let i = 0; i < searchArr.length; i++) {
-    if (searchArr[i].id.includes(id)) {
-      const idOption = document.createElement("option");
-      idOption.innerHTML = `${idSearchInput.id}`;
-      idSearchInput.appendChild(idOption);
-    }
+const tableBodyE1 = document.getElementById("tbody");
+function renderTableSearch(petArr) {
+  tableBodyE1.innerHTML = "";
+  for (let i = 0; i < petArr.length; i++) {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+    <th scope="row">${petArr[i].id}</th>
+		<td>${petArr[i].name}</td>
+		<td>${petArr[i].age}</td>
+		<td>${petArr[i].type}</td>
+	  <td>${petArr[i].weight} kg</td>
+		<td>${petArr[i].lengthPet} cm</td>
+		<td>${petArr[i].breed}</td>
+		<td>
+		<i class="bi bi-square-fill" style="color: ${petArr[i].color}"></i>
+		</td>
+		<td><i class="bi ${
+      petArr[i].vaccinated == true ? "bi-check-circle-fill" : "bi-x-circle-fill"
+    }"></i></td>
+		<td><i class="bi ${
+      petArr[i].dewormed == true ? "bi-check-circle-fill" : "bi-x-circle-fill"
+    }"></i></td>
+		<td><i class="bi ${
+      petArr[i].sterilized == true ? "bi-check-circle-fill" : "bi-x-circle-fill"
+    }"></i></td>
+		<td>${petArr[i].date}</td>
+		<td><button type="button" class="btn btn-danger" onclick="deletePet('${
+      petArr[i].id
+    }')">Delete</button>
+		</td>
+  `;
+    tableBodyEl.appendChild(row);
   }
 }
-
-// function showId() {
-//   breedInput.innerHTML = "";
-//   if (typeInput.value == "dog") {
-//     let dogBreed = breedFilterArr.filter((arr) => arr.type == "Dog");
-//     console.log(dogBreed);
-//     dogBreed.forEach((dog) => {
-//       const dogOption = document.createElement("option");
-//       dogOption.innerHTML = `${dog.name}`;
-//       breedInput.appendChild(dogOption);
-//     });
-//   } else {
-//     let catBreed = breedFilterArr.filter((arr) => arr.type == "Cat");
-//     console.log(catBreed);
-//     catBreed.forEach((cat) => {
-//       const catOption = document.createElement("option");
-//       catOption.innerHTML = `${cat.name}`;
-//       breedInput.appendChild(catOption);
-//     });
-//   }
-// }
-
-// submitSearchBtn.addEventListener("click", () => {
-//   const dataSeach = {
-//     id: idSearchInput.value,
-//     name: nameSearchInput.value,
-//     age: parseInt(ageSearchInput.value),
-//     type: typeSearchInput.value,
-//     breed: breedSearchInput.value,
-//     vaccinated: vaccinatedSearchInput.checked,
-//     dewormed: dewormedSearchInput.checked,
-//     sterilized: sterilizedSearchInput.checked,
-//   };
-// });
-
-// let searchItems = [];
-
-// for (let i = 0; i < searchArr.length; i++) {
-//   searchItems = Object.values(searchArr[i]);
-// }
-
-// function isSubset(array1, array2) {
-//   return array2.every((element) => array1.includes(element));
-// }

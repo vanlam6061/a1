@@ -59,16 +59,16 @@ function renderBreed(breedArr) {
 }
 
 // VII. Xóa một thú cưng
-
+const breedArr = JSON.parse(getFromStorage("localBreedArr"));
 const deletePet = (breedId) => {
   if (confirm("Are you sure?")) {
     let i = breedArr.findIndex((id) => {
       id == breedId;
     });
     breedArr.splice(i - 1, 1);
-    saveToStorage("localBreedArr", JSON.stringify(localBreedArr));
+    saveToStorage("localBreedArr", JSON.stringify(breedArr));
   }
   renderBreed(breedArr);
 };
-const breedArr = JSON.parse(getFromStorage("localBreedArr"));
+
 renderBreed(breedArr);
