@@ -22,6 +22,7 @@ const showTypePets = () => {
   });
 };
 showTypePets();
+let resultFind = [];
 findBtn.addEventListener("click", () => {
   const dataSearch = {
     id: idSearchInput.value,
@@ -32,14 +33,17 @@ findBtn.addEventListener("click", () => {
     dewormed: dewormedSearchInput.checked,
     sterilized: sterilizedSearchInput.checked,
   };
-  const resultFind = searchArr.filter((search) => {
-    search.id.includes(dataSearch.id) &&
-      search.name.includes(dataSearch.name) &&
-      search.breed == dataSearch.breed &&
-      search.type == dataSearch.type &&
-      dataSearch.vaccinated == search.vaccinated &&
-      dataSearch.dewormed == search.dewormed &&
-      dataSearch.sterilized == search.sterilized;
+  searchArr.forEach((arr) => {
+    if (
+      arr.id.includes(dataSearch.id) &&
+      arr.name.includes(dataSearch.name) &&
+      arr.breed == dataSearch.breed &&
+      arr.type == dataSearch.type &&
+      arr.vaccinated == dataSearch.vaccinated &&
+      arr.dewormed == dataSearch.dewormed &&
+      arr.sterilized == dataSearch.sterilized
+    )
+      resultFind.push(arr);
   });
   renderTableSearch(resultFind);
   console.log(resultFind);
@@ -76,6 +80,6 @@ function renderTableSearch(petArr) {
     }')">Delete</button>
 		</td>
   `;
-    tableBodyEl.appendChild(row);
+    tableBodyE1.appendChild(row);
   }
 }

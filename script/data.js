@@ -1,7 +1,8 @@
 "use strict";
-const dataExport = JSON.stringify(getFromStorage("localPetArr"));
+const datas = JSON.stringify(getFromStorage("localPetArr"));
+let dataArr = JSON.parse(datas);
 function saveStaticDataToFile() {
-  var blob = new Blob([dataExport], {
+  var blob = new Blob([datas], {
     type: "application/json",
   });
   saveAs(blob, "exportData.json");
@@ -15,35 +16,21 @@ function handleFiles(event) {
   const reader = new FileReader();
   reader.onloadend = function () {
     readedContent = JSON.parse(reader.result);
-    console.log("#2", readedContent);
   };
   reader.readAsText(fileList[0]);
 }
-
-console.log(readedContent);
-
-// function updateDataFromInputFile() {
-
-// }
-// let form = document.getElementById('file-form');
-
-// function onLoad(e) {
-//   localStorage.setItem('key', e.target.result);
-// }
-
-// function onError(e) {
-//   alert('Encountered error when reading file');
-// }
-
-// function fileFormHandler(e) {
-//   const input = e.target.querySelector('input');
-//   const reader = new FileReader();
-//   reader.addEventListener('load', onLoad);
-//   reader.addEventListener('load', onError);
-//   reader.readAsText(input.files[0]);
-
-//   // có thể render lại chỗ này
-//   // .....
-// }
-
-// form.addEventListener('submit', fileFormHandler);
+console.log(dataArr);
+function updateDataFromInputFile() {
+  const newData = [];
+  console.log(readedContent);
+  for (let i = 0; i < readedContent.length; i++) {
+    for (let j = 0; j < datas.length; j++) {
+      if (dataArr[j].id == readedContent[i].id) {
+        newData = dataArr.splice(j, 1);
+      }
+    }
+    newData.concat(readedContent);
+    saveToStorage("localPetArr", JSON.stringify(newData));
+    console.log(newData);
+  }
+}
