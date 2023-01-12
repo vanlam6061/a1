@@ -79,8 +79,8 @@ submitBtn.addEventListener("click", () => {
     alert("Please fill all fields");
     validate = false;
   } else {
-    for (let i = 0; i < petArr.length; i++) {
-      if (data.id == petArr[i].id) {
+    for (let i = 0; i < localPetArr.length; i++) {
+      if (data.id == localPetArr[i].id) {
         alert("ID must unique!");
         validate = false;
       }
@@ -168,14 +168,14 @@ const clearInput = () => {
 };
 // VII. Xóa một thú cưng
 
-const deletePet = (petId) => {
+const deletePet = (indexPet) => {
   if (confirm("Are you sure?")) {
-    let i = petArr.findIndex((id) => {
-      id == petId;
+    let i = localPetArr.findIndex((indexOfPeti) => {
+      indexOfPeti == indexPet;
     });
-    petArr.splice(i, 1);
-    renderTableData(petArr);
-    saveToStorage("localPetArr", JSON.stringify(petArr));
+    localPetArr.splice(i, 1);
+    saveToStorage("localPetArr", JSON.stringify(localPetArr));
+    renderTableData(pets);
   }
 };
 // VIII. Hiển thị các thú cưng khỏe mạnh
@@ -201,4 +201,4 @@ healthyCheckBtn.addEventListener("click", () => {
   }
 });
 
-const petArr = JSON.parse(getFromStorage("localPetArr"));
+const pets = JSON.parse(getFromStorage("localPetArr"));

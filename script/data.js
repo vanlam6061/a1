@@ -1,8 +1,8 @@
 "use strict";
-const datas = JSON.stringify(getFromStorage("localPetArr"));
-let dataArr = JSON.parse(datas);
+const dataArr = JSON.parse(getFromStorage("localPetArr"));
+let dataExport = JSON.stringify(dataArr);
 function saveStaticDataToFile() {
-  var blob = new Blob([datas], {
+  var blob = new Blob([dataExport], {
     type: "application/json",
   });
   saveAs(blob, "exportData.json");
@@ -19,18 +19,17 @@ function handleFiles(event) {
   };
   reader.readAsText(fileList[0]);
 }
-console.log(dataArr);
 function updateDataFromInputFile() {
-  const newData = [];
   console.log(readedContent);
-  for (let i = 0; i < readedContent.length; i++) {
-    for (let j = 0; j < datas.length; j++) {
-      if (dataArr[j].id == readedContent[i].id) {
-        newData = dataArr.splice(j, 1);
+  let data = JSON.parse(readedContent);
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 0; j < dataArr.length; j++) {
+      if (dataArr[j].id === data[i].id) {
+        dataArr.splice(j, 1);
       }
     }
-    newData.concat(readedContent);
-    saveToStorage("localPetArr", JSON.stringify(newData));
-    console.log(newData);
+    const compileData = dataArr.concat(data);
+    saveToStorage("localPetArr", JSON.stringify(compileData));
+    console.log(compileData);
   }
 }
