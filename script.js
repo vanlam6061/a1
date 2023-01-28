@@ -18,7 +18,9 @@ let yyyy = today.getFullYear();
 let mm = today.getMonth() + 1;
 let dd = today.getDate();
 let sideBar = document.getElementById("sidebar");
-sideBar.classList.toggle("active");
+sideBar.addEventListener("click", () => {
+  sideBar.classList.toggle("active");
+});
 
 //filter the breed type before  load to pet table
 const breedFilterArr = JSON.parse(getFromStorage("localBreedArr"));
@@ -202,3 +204,4 @@ healthyCheckBtn.addEventListener("click", () => {
 });
 
 const pets = JSON.parse(getFromStorage("localPetArr"));
+ß;
