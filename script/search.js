@@ -35,13 +35,12 @@ findBtn.addEventListener("click", () => {
   };
   searchArr.forEach((arr) => {
     if (
-      arr.id.includes(dataSearch.id) &&
-      arr.name.includes(dataSearch.name) &&
+      // (arr.id.includes(dataSearch.id) || arr.name.includes(dataSearch.name)) &&
       arr.breed == dataSearch.breed &&
       arr.type == dataSearch.type &&
-      arr.vaccinated == dataSearch.vaccinated &&
-      arr.dewormed == dataSearch.dewormed &&
-      arr.sterilized == dataSearch.sterilized
+      ((dataSearch.vaccinated == true && arr.vaccinated == true) ||
+        (dataSearch.dewormed == true && arr.dewormed == true) ||
+        (dataSearch.sterilized == true && arr.sterilized == true))
     )
       resultFind.push(arr);
   });
