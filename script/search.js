@@ -33,17 +33,27 @@ findBtn.addEventListener("click", () => {
     dewormed: dewormedSearchInput.checked,
     sterilized: sterilizedSearchInput.checked,
   };
-  searchArr.forEach((arr) => {
+  for (let i = 0; i < searchArr.length; i++) {
     if (
-      // (arr.id.includes(dataSearch.id) || arr.name.includes(dataSearch.name)) &&
-      arr.breed == dataSearch.breed &&
-      arr.type == dataSearch.type &&
-      ((dataSearch.vaccinated == true && arr.vaccinated == true) ||
-        (dataSearch.dewormed == true && arr.dewormed == true) ||
-        (dataSearch.sterilized == true && arr.sterilized == true))
-    )
-      resultFind.push(arr);
-  });
+      !searchArr[i].id.includes(dataSearch.id)
+      // !searchArr[i].name.includes(dataSearch.name)
+      // searchArr[i].breed != dataSearch.breed ||
+      // searchArr[i].type != dataSearch.type ||
+      // (dataSearch.vaccinated == true && searchArr[i].vaccinated == false) ||
+      // (dataSearch.dewormed == true && searchArr[i].dewormed == false) ||
+      // (dataSearch.sterilized == true && searchArr[i].sterilized == false)
+      //   &&
+      // dataSearch.breed == "Select Breed" &&
+      // dataSearch.id == "" &&
+      // dataSearch.name == "" &&
+      // dataSearch.type == "Select Type"
+    ) {
+      resultFind = searchArr.slice(i, i + 1);
+    }
+  }
+
+  console.log(dataSearch);
+  console.log(searchArr);
   renderTableSearch(resultFind);
   console.log(resultFind);
 });
