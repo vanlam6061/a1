@@ -52,6 +52,18 @@ findBtn.addEventListener("click", () => {
     }
   }
 
+  const filteredPets = initialPets
+    .filter(
+      (pet) =>
+        idInput === "" || pet.id.toLowercase().includes(idInput.toLowerCase())
+    )
+    .filter(
+      (pet) =>
+        nameInput === "" ||
+        pet.name.toLowercase().includes(nameInput.toLowerCase())
+    )
+    .filter((pet) => typeInput === "" || pet.type === typeInput);
+
   console.log(dataSearch);
   console.log(searchArr);
   renderTableSearch(resultFind);
