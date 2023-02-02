@@ -22,7 +22,6 @@ const showTypePets = () => {
   });
 };
 showTypePets();
-let resultFind = [];
 findBtn.addEventListener("click", () => {
   const dataSearch = {
     id: idSearchInput.value,
@@ -33,41 +32,29 @@ findBtn.addEventListener("click", () => {
     dewormed: dewormedSearchInput.checked,
     sterilized: sterilizedSearchInput.checked,
   };
-  for (let i = 0; i < searchArr.length; i++) {
-    if (
-      !searchArr[i].id.includes(dataSearch.id)
-      // !searchArr[i].name.includes(dataSearch.name)
-      // searchArr[i].breed != dataSearch.breed ||
-      // searchArr[i].type != dataSearch.type ||
-      // (dataSearch.vaccinated == true && searchArr[i].vaccinated == false) ||
-      // (dataSearch.dewormed == true && searchArr[i].dewormed == false) ||
-      // (dataSearch.sterilized == true && searchArr[i].sterilized == false)
-      //   &&
-      // dataSearch.breed == "Select Breed" &&
-      // dataSearch.id == "" &&
-      // dataSearch.name == "" &&
-      // dataSearch.type == "Select Type"
-    ) {
-      resultFind = searchArr.slice(i, i + 1);
-    }
-  }
-
-  const filteredPets = initialPets
+  const filteredPets = searchArr
+    .filter((arr) => dataSearch.id === "" || arr.id.includes(dataSearch.id))
     .filter(
-      (pet) =>
-        idInput === "" || pet.id.toLowercase().includes(idInput.toLowerCase())
+      (arr) => dataSearch.name === "" || arr.name.includes(dataSearch.name)
     )
     .filter(
-      (pet) =>
-        nameInput === "" ||
-        pet.name.toLowercase().includes(nameInput.toLowerCase())
+      (arr) => dataSearch.type === "Select Type" || arr.type === dataSearch.type
     )
-    .filter((pet) => typeInput === "" || pet.type === typeInput);
+    .filter(
+      (arr) =>
+        dataSearch.breed === "Select Breed" || arr.breed === dataSearch.breed
+    )
+    .filter(
+      (arr) =>
+        (dataSearch.vaccinated === false &&
+          dataSearch.dewormed === false &&
+          dataSearch.sterilized === false) ||
+        (dataSearch.vaccinated === true && arr.vaccinated === true) ||
+        (dataSearch.dewormed === true && arr.dewormed === true) ||
+        (dataSearch.sterilized === true && arr.sterilized === true)
+    );
 
-  console.log(dataSearch);
-  console.log(searchArr);
-  renderTableSearch(resultFind);
-  console.log(resultFind);
+  renderTableSearch(filteredPets);
 });
 
 const tableBodyE1 = document.getElementById("tbody");
