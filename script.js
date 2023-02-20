@@ -204,4 +204,3 @@ healthyCheckBtn.addEventListener("click", () => {
 });
 
 const pets = JSON.parse(getFromStorage("localPetArr"));
-ß;

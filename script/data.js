@@ -1,7 +1,6 @@
 "use strict";
 const dataArr = JSON.parse(getFromStorage("localPetArr"));
 let dataExport = JSON.stringify(dataArr);
-
 //export dataExport
 function saveStaticDataToFile() {
   var blob = new Blob([dataExport], {
@@ -12,16 +11,15 @@ function saveStaticDataToFile() {
 // read import data
 let readContent;
 const inputFile = document.getElementById("input-file");
-inputFile.addEventListener("change", handleFiles, false);
+inputFile.addEventListener("change", handleFiles);
 
 function handleFiles(event) {
   let fileList = event.target.files;
-  const reader = new FileReader();
-  reader.onloadend = function () {
-    readContent = JSON.parse(reader.result);
+  let readerA = new FileReader();
+  readerA.readAsText(fileList[0], "UTF-8");
+  readerA.onload = function () {
+    readContent = readerA.result;
   };
-  reader.readAsText(fileList[0]);
-  console.log(readContent);
 }
 // import data
 function updateDataFromInputFile() {
